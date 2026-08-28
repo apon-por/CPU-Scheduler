@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CPU Scheduling Algorithm Simulator — FCFS, SJF, SRTF, Priority, Round Robin">
+    <title>CPU Scheduling Simulator | OS Lab</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated background orbs -->
+    <div class="orb orb-1" aria-hidden="true"></div>
+    <div class="orb orb-2" aria-hidden="true"></div>
+    <div class="orb orb-3" aria-hidden="true"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo-icon">⚙️</div>
+            <h1>CPU Scheduling <span class="gradient-text">Simulator</span></h1>
+            <p class="subtitle">Operating Systems Lab — Process Scheduling Algorithms</p>
+        </header>
+
+        <!-- Process Input -->
+        <section class="card" id="inputSection">
+            <div class="card-header">
+                <h2><span class="icon">📋</span> Process Table</h2>
+                <span class="badge-info">Lower priority number = higher priority</span>
+            </div>
+            <div class="table-wrapper">
+                <table id="processTable">
+                    <thead>
+                        <tr>
+                            <th>Process</th>
+                            <th>Arrival Time</th>
+                            <th>Burst Time</th>
+                            <th>Priority</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="processBody"></tbody>
+                </table>
+            </div>
+            <button id="addProcessBtn" class="btn btn-ghost">
+                <span class="btn-icon">+</span> Add Process
+            </button>
+        </section>
+
+        <!-- Controls -->
+        <section class="card" id="controlSection">
+            <div class="card-header">
+                <h2><span class="icon">🎯</span> Algorithm</h2>
+            </div>
+            <div class="controls">
+                <div class="control-group grow">
+                    <label for="algorithm">Select Algorithm</label>
+                    <select id="algorithm">
+                        <option value="fcfs">FCFS — First Come First Serve</option>
+                        <option value="sjf">SJF — Shortest Job First (Non-Preemptive)</option>
+                        <option value="srtf">SRTF — Shortest Remaining Time First (Preemptive)</option>
+                        <option value="priority">Priority Scheduling (Non-Preemptive)</option>
+                        <option value="rr">RR — Round Robin</option>
+                    </select>
+                </div>
+                <div class="control-group" id="quantumGroup" style="display:none;">
+                    <label for="quantum">Time Quantum</label>
+                    <input type="number" id="quantum" value="2" min="1">
+                </div>
+                <div class="control-buttons">
+                    <button id="calculateBtn" class="btn btn-primary">
+                        <span class="btn-icon">▶</span> Run
+                    </button>
+                    <button id="compareBtn" class="btn btn-accent">
+                        <span class="btn-icon">⚡</span> Compare All
+                    </button>
+                </div>
+            </div>
+            <p class="algo-desc" id="algoDesc"></p>
+        </section>
+
+        <!-- Single Algorithm Results -->
+        <section class="card" id="resultsSection" style="display:none;">
+            <div class="card-header">
+                <h2><span class="icon">📊</span> Results — <span id="algoTitle" class="gradient-text"></span></h2>
+            </div>
+
+            <div class="result-block">
+                <h3>Gantt Chart</h3>
+                <div class="gantt-wrapper">
+                    <div id="ganttChart" class="gantt-chart"></div>
+                </div>
+            </div>
+
+            <div class="result-block">
+                <h3>Process Details</h3>
+                <div class="legend">
+                    <span>AT = Arrival</span><span>BT = Burst</span><span>CT = Completion</span>
+                    <span>TAT = Turnaround</span><span>WT = Waiting</span><span>RT = Response</span>
+                </div>
+                <div class="table-wrapper">
+                    <table id="resultTable">
+                        <thead>
+                            <tr>
+                                <th>Process</th>
+                                <th>AT</th>
+                                <th>BT</th>
+                                <th>Priority</th>
+                                <th>CT</th>
+                                <th>TAT</th>
+                                <th>WT</th>
+                                <th>RT</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="stats-row" id="statsRow">
+                <div class="stat-card">
+                    <span class="stat-label">Avg Turnaround Time</span>
+                    <span class="stat-value" id="avgTAT">—</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Avg Waiting Time</span>
+                    <span class="stat-value" id="avgWT">—</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Avg Response Time</span>
+                    <span class="stat-value" id="avgRT">—</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Results -->
+        <section class="card" id="compareSection" style="display:none;">
+            <div class="card-header">
+                <h2><span class="icon">⚡</span> Algorithm <span class="gradient-text">Comparison</span></h2>
+            </div>
+            <div class="table-wrapper">
+                <table id="compareTable">
+                    <thead>
+                        <tr>
+                            <th>Algorithm</th>
+                            <th>Avg TAT</th>
+                            <th>Avg WT</th>
+                            <th>Avg RT</th>
+                        </tr>
+                    </thead>
+                    <tbody id="compareBody"></tbody>
+                </table>
+            </div>
+            <p class="compare-note" id="compareNote"></p>
+        </section>
+
+        <footer>
+            <p>OS Lab Project — CPU Scheduling Algorithms</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
